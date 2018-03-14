@@ -40,7 +40,7 @@ namespace LazerDBMapConverter
 
             var beatmapSetInfo = conn.Query<BeatmapSetInfo>("Select * from BeatmapSetInfo");
 
-            beatmapSetInfo = beatmapSetInfo.Where(s => !string.IsNullOrEmpty(s.OnlineBeatmapSetID)).ToList();
+            beatmapSetInfo = beatmapSetInfo.Where(s => s.OnlineBeatmapSetID != null).ToList();
 
 
             var maxCount = beatmapSetInfo.Count;
@@ -79,7 +79,7 @@ namespace LazerDBMapConverter
 
                     Metadata = conn.Query<BeatmapMetadata>("Select * from BeatmapMetadata WHERE ID = ?", bsi.MetadataID);
 
-                    invalidMaps.Add(int.Parse(bsi.OnlineBeatmapSetID), $"{bsi.OnlineBeatmapSetID} {Metadata[0].Artist} - {Metadata[0].Title}");
+                    invalidMaps.Add((int)bsi.OnlineBeatmapSetID, $"{bsi.OnlineBeatmapSetID} {Metadata[0].Artist} - {Metadata[0].Title}");
                     Console.ForegroundColor = ConsoleColor.Gray;
                 }
                 currentCount++;
