@@ -67,6 +67,7 @@
     <Compile Include="Database\BeatmapSetInfo.cs" />
     <Compile Include="Database\FileInfo.cs" />
     <Compile Include="Helper\DatabaseHelper.cs" />
+    <Compile Include="Helper\DirectoryHelper.cs" />
     <Compile Include="Helper\InputHandler.cs" />
     <Compile Include="MainHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

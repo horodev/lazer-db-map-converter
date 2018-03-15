@@ -12,7 +12,7 @@ namespace LazerDBMapConverter
         public string AudioFile { get; set; }
         public string Author { get; set; }
         public string BackgroundFile { get; set; }
-        public string PreviewTime { get; set; }
+        public int PreviewTime { get; set; }
         public string Source { get; set; }
         public string Tags { get; set; }
         public string Title { get; set; }

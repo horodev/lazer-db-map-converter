@@ -15,28 +15,13 @@ namespace LazerDBMapConverter
             InputHandler handler = new InputHandler(args);
         }
 
-        public static void Convert(bool oszConversion)
+        public static void Convert(ConversionType type, string path = "")
         {
-            MainHandler.Convert();
-            if(oszConversion)
-            {
-                foreach(var dir in Directory.EnumerateDirectories("Maps"))
-                {
-                    ZipFile.CreateFromDirectory(dir, dir+".osz");
-                    foreach (var file in Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories))
-                        File.Delete(file);
-                    Directory.Delete(dir, true);
-                }
-            }
-        }
-
-        public static void Convert(string path = "")
-        {
-            if(path == "")
+            if (path == "")
                 path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "osu");
 
             Directory.CreateDirectory("Maps");
-            DatabaseHelper dh = new DatabaseHelper(path);
+            DatabaseHelper dh = new DatabaseHelper(path, type);
         }
     }
 }

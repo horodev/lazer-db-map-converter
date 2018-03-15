@@ -13,7 +13,6 @@ namespace LazerDBMapConverter
 
         public InputHandler(string[] args)
         {
-            args = new string[] { "-osz" };
             Console.WriteLine("osu!lazer db map converter");
             if (args.Length == 0)
             {
@@ -25,11 +24,11 @@ namespace LazerDBMapConverter
             {
                 if(args[0] == "-osz")
                 {
-                    MainHandler.Convert(true);
+                    MainHandler.Convert(ConversionType.Osz);
                 }
                 else if(args[0] == "-dir")
                 {
-                    MainHandler.Convert();
+                    MainHandler.Convert(ConversionType.Directory);
                 }
                 else
                 {
