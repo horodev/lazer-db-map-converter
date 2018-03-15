@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LazerDBMapConverter
 {
@@ -19,6 +17,8 @@ namespace LazerDBMapConverter
         private List<string> currentFiles;
         private List<string> currentFilesHashPath;
 
+        private char[] invalidPathCharacters;
+
         public ConversionType Type { get; set; }
 
         private string osuPath;
@@ -28,6 +28,8 @@ namespace LazerDBMapConverter
             this.osuPath = osuPath;
             currentFiles = new List<string>();
             currentFilesHashPath = new List<string>();
+
+            invalidPathCharacters = new char[] { '\"', '<', '>', '|', '*', '?', ':' };
 
             Type = type;
         }
@@ -59,27 +61,12 @@ namespace LazerDBMapConverter
         public void Create()
         {
             if (Type == ConversionType.Osz)
-                ConvertToOszAlt();
+                ConvertToOsz();
             else if (Type == ConversionType.Directory)
                 ConvertToDirectory();
         }
 
-        [Obsolete("use ConvertToOszAlt() instead. It should be faster and save more ressources")]
         private void ConvertToOsz()
-        {
-            ConvertToDirectory();
-
-            var dir = currentFiles[0];
-
-            Console.WriteLine("\t > Creating osz file from directory...");
-
-            ZipFile.CreateFromDirectory(dir, dir + ".osz");
-            foreach (var file in Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories))
-                File.Delete(file);
-            Directory.Delete(dir, true);
-        }
-
-        private void ConvertToOszAlt()
         {
             var hashRoot = currentFilesHashPath[0];
             var mapRoot = currentFiles[0];
@@ -94,9 +81,7 @@ namespace LazerDBMapConverter
                     {
                         zip.CreateEntryFromFile(Path.Combine(hashRoot, currentFilesHashPath[i]), currentFiles[i]);
                     }
-                    zip.Dispose();
                 }
-                fs.Dispose();
             }
         }
 
@@ -180,9 +165,8 @@ namespace LazerDBMapConverter
         {
             for (var i = 0; i < path.Length; i++)
             {
-                int c = path[i];
-
-                if (c == '\"' || c == '<' || c == '>' || c == '|' || c == '*' || c == '?' || c < 32 || c == ':')
+                char c = path[i];
+                if (invalidPathCharacters.Contains(c) || c < 32)
                     return true;
             }
 
@@ -194,7 +178,7 @@ namespace LazerDBMapConverter
             {
                 char c = path[i];
 
-                if (c == '\"' || c == '<' || c == '>' || c == '|' || c == '*' || c == '?' || c < 32 || c == ':')
+                if (invalidPathCharacters.Contains(c) || c < 32)
                     path = path.Replace(c, '-');
             }
 
