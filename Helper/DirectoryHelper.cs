@@ -98,7 +98,7 @@ namespace LazerDBMapConverter
                 {
                     // Some files are stored in subdirectories according to the db
                     // We could create this directory earlier, but doing it here
-                    // enables to do all File and Directory creation in this method.
+                    // enables us to do all File and Directory creation in this method.
 
                     // Also in case of a PathTooLongException with a certain file we don't have to delete the created folder
                     // as we can be sure that the length of the path is fine.

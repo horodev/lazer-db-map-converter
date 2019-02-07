@@ -50,8 +50,8 @@ namespace LazerDBMapConverter
 
                 foreach (var setFile in beatmapSetFileInfo)
                 {
-                    // Every BeatmapSetFileInfo Entriy has a single Foreignkey, pointing to exactly one FileInfo, so the
-                    // following Query will always return one object.
+                    // Every BeatmapSetFileInfo Entry has a single foreign key, pointing to exactly one FileInfo, so the
+                    // following query will always return one object.
                     var fileInfo = conn.Query<FileInfo>("Select * from FileInfo where ID = ?", setFile.FileInfoID)[0];
                     canBeCreated = DirectoryHelper.AddContent(setFile, fileInfo);
 

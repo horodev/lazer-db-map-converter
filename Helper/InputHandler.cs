@@ -34,6 +34,23 @@ namespace LazerDBMapConverter
                 {
                     Console.WriteLine("invalid paramaters");
                 }
+                return;
+            }
+            if (args.Length == 2)
+            {
+                if (args[1] == "-osz")
+                {
+                    MainHandler.Convert(ConversionType.Osz, args[0]);
+                }
+                else if (args[1] == "-dir")
+                {
+                    MainHandler.Convert(ConversionType.Directory, args[0]);
+                }
+                else
+                {
+                    Console.WriteLine("invalid paramaters");
+                }
+                return;
             }
         }
     }
